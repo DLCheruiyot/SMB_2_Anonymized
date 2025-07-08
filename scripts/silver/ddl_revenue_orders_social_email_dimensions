@@ -50,8 +50,6 @@ GO
   
 CREATE TABLE silver.dim_products (
 	prod_SKU NVARCHAR (50),
-	prod_type NVARCHAR (50),
-	prod_name NVARCHAR (50),
 	prod_retail_price DECIMAL (12, 2),
 	dwh_create_date DATETIME2 DEFAULT GETDATE()
 );
