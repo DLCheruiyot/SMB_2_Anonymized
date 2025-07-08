@@ -1,4 +1,6 @@
 /* This is an Anonymization and Randomization Script meant to be applied to the bronze layer tables. */
+-- NOTE: CSV not included in this repo. Replace path with local test file to run.
+
 
 USE SMB_2_Anonymized;
 GO
