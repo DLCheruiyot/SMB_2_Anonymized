@@ -1,0 +1,100 @@
+/*
+===============================================================================
+Quality Checks
+===============================================================================
+Script Purpose:
+    This script performs various quality checks for data consistency, accuracy, 
+    and standardization across the 'silver' layer. 
+Usage Notes:
+    - Run these checks after data loading Silver Layer.
+    - Investigate and resolve any discrepancies found during the checks.
+===============================================================================
+*/
+
+-- CHECKING SILVER.DIM_CUSTOMERS TABLE FOR COMPLETENESS
+
+--Confirming cleanliness of customer records marked as complete i.e. includes full name, birthdate and zip.
+--silver.dim_customers table includes a field called 'data_quality_flag' that is either 'Complete' or 'Incomplete' based on combination of full_name, birth_date and zip.
+-- Script below pulls all the records marked complete for eye-test on the fields mentioned above.
+SELECT * FROM silver.dim_customers
+WHERE data_quality_flag = 'Complete';
+
+-- CHECKING SILVER.BANK_CASH_FLOWS TABLE
+
+--Check that Expense records DO NOT have an entry in the revenue_type field i.e. Expenses are treated separate from Revenue
+SELECT TOP 1000 *
+FROM silver.business_cash_flows
+WHERE transaction_type = 'Expense' AND
+revenue_type IS NOT NULL;
+
+--Check that CashInjection records DO NOT have an entry in the revenue_type field i.e. CashInjections are treated separate from Revenue
+SELECT TOP 1000 *
+FROM silver.business_cash_flows
+WHERE transaction_type = 'CashInjection' AND
+revenue_type IS NOT NULL;
+
+--Check that all Revenue records also have a 'revenue_type' that is either Winery, Farmstay or Event. The query should result in a blank result 
+SELECT TOP 1000 *
+FROM silver.business_cash_flows
+WHERE transaction_type = 'Revenue' AND
+revenue_type IS NULL;
+
+--Confirming that Winery Revenue records also include a winery_revenue_source entry such as WineDirect, Square, Zelle etc. This query should be blank 
+SELECT * FROM silver.business_cash_flows
+WHERE revenue_type = 'WineryRevenue' AND
+	  winery_revenue_source IS NULL;
+
+--Confirming that Farmstay Revenue is ONLY from Airbnb Payments or VRBO
+SELECT TOP 1000 *
+FROM silver.business_cash_flows
+WHERE revenue_type = 'FarmstayRevenue';
+
+-- CHECKING SILVER.WD_ORDER_DETAILS
+--Script below confirms that there are NO NULL order_numbers meaning that each record has relevant values
+SELECT * FROM silver.wd_order_details
+WHERE order_num IS NULL;
+
+-- CHECKING SILVER.DIM_PRODUCTS
+-- No script required as silver.dim_products has only distinct values with full records.
+
+--CHECKING SOCIAL MEDIA AND EMAIL MARKETING TABLES IN SILVER LAYER
+--check for duplicate dates in silver.instagram_data (result should be empty)
+select instagram_date, count(*)
+from silver.instagram_data
+group by instagram_date
+having count(*) > 1
+
+--Check whether there are null values in silver.instagram_data (result should be empty)
+select * FROM silver.instagram_data
+WHERE instagram_interactions IS NULL OR
+	  instagram_follows IS NULL OR
+	  instagram_link_clicks IS NULL OR
+	  instagram_reach IS NULL OR
+	  instagram_visits IS NULL;
+
+--check for duplicate dates in silver.facebook_data (result should be empty)
+select facebook_date, count(*)
+from silver.facebook_data
+group by facebook_date
+having count(*) > 1;
+
+--Check whether there are null values in silver.facebook_data (result should be empty)
+select * FROM silver.facebook_data
+WHERE facebook_interactions IS NULL OR
+	  facebook_follows IS NULL OR
+	  facebook_link_clicks IS NULL OR
+	  facebook_reach IS NULL OR
+	  facebook_visits IS NULL;
+
+--check for duplicate unique IDs in silver.mailchimp_email_marketing (result should be empty if correct)
+select unique_id, count (*)
+from silver.mailchimp_email_marketing
+group by unique_id
+having count(*) > 1;
+
+-- Check for blank email titles or audience in silver.mailchimp_email_marketing (result should be empty if correct)
+SELECT * FROM silver.mailchimp_email_marketing
+WHERE email_title = '' OR 
+	  email_audience = '' OR
+	  send_date = '';
+
