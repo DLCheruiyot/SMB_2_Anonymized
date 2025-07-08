@@ -1,7 +1,7 @@
 /*
 ===============================================================================
 Stored Procedure: Load Silver Layer (Bronze -> Silver) for Order Details, Customer_Dim, 
-				  Product_Dim, Bank_Transactions, Social Media Metrics, Email Marketing Metrics
+Product_Dim, Bank_Transactions, Social Media Metrics, Email Marketing Metrics
 ===============================================================================
 Script Purpose:
     This stored procedure performs the ETL (Extract, Transform, Load) process to 
@@ -281,9 +281,16 @@ BEGIN
 				revenue_type,
 				winery_revenue_source
 			)
-			-- Pulling final table fields from CTE above and adding winery_revenue_source (e.g. WineDirect, Square etc.) to insert into silver.business_cash_flows
+			-- Pulling final table fields from CTE above and adding winery_revenue_source (e.g. WineDirect, Square etc.) to insert into silver.revenue
 			SELECT
-				*,
+				bank_date,
+				bank_transaction,
+				bank_transaction_name,
+			-- ⬇️ Randomly adjusted bank_amount (between +1% and +200%)
+				CAST(bank_amount * (1 + (ABS(CHECKSUM(NEWID())) % 201) * 0.01) AS MONEY) AS transaction_amount,
+				transaction_type,
+				revenue_type,
+			-- Derive business unit revenue source
 				CASE 
 					WHEN transaction_type = 'Revenue'
 						AND revenue_type <> 'FarmstayRevenue' 
