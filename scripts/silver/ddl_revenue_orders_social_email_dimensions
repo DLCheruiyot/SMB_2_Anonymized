@@ -8,11 +8,11 @@ Script Purpose:
 ===============================================================================================================
 */
 
-IF OBJECT_ID ('silver.business_cash_flows' , 'U') IS NOT NULL
-	DROP TABLE silver.business_cash_flows;
+IF OBJECT_ID ('silver.revenue' , 'U') IS NOT NULL
+	DROP TABLE silver.revenue;
 GO
   
-CREATE TABLE silver.business_cash_flows (
+CREATE TABLE silver.revenue (
 	transaction_date DATE,
 	bank_transaction NVARCHAR(15),
 	transaction_name NVARCHAR (150),
