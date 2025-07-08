@@ -33,7 +33,6 @@ CREATE TABLE bronze.wd_order_details (
 	order_taxes DECIMAL (12, 2),
 	order_subtotal DECIMAL (12, 2),
 	cust_last_name NVARCHAR (50),
-	prod_name NVARCHAR (50),
 	cust_email NVARCHAR (50),
 	order_date DATE,
 	cust_city NVARCHAR (50),
@@ -45,10 +44,9 @@ CREATE TABLE bronze.wd_order_details (
 	prod_sales_price DECIMAL (12, 2),
 	prod_item_discount DECIMAL (12, 2),
 	prod_retail_price DECIMAL (12, 2),
-	prod_SKU NVARCHAR (50),
-	prod_type NVARCHAR (50)
+	prod_SKU NVARCHAR (50)
 );
-
+-- prod_name and prod_type removed for anonymization
 GO
 
 IF OBJECT_ID ('bronze.mailchimp_email_marketing' , 'U') IS NOT NULL
