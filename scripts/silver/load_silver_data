@@ -159,7 +159,7 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.dim_products (This table will include product details for each unique product)
+		-- Loading silver.dim_products (This table will include product details for each unique product. Prod_name and prod_type removed for privacy)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.dim_products';
 		TRUNCATE TABLE silver.dim_products;
@@ -169,22 +169,6 @@ BEGIN
 		WITH CTE_ranked_products AS (
 			SELECT 
 				prod_SKU,
-				CASE                  -- Using CASE statement to standardize prod_type field and reduce ambiguity
-					WHEN prod_name = 'Meal Ticket' THEN 'FoodProduct'
-					WHEN prod_name = 'Samosa' THEN 'FoodProduct'
-					WHEN prod_name = 'Reggae Ticket' THEN 'EventTicket'
-					WHEN prod_name = 'Food & Wine Pairing' THEN 'WineProduct'
-					WHEN prod_name = 'Black@Z Art and Shipping' THEN 'EventTicket'
-					WHEN prod_name = 'Bottled Water' THEN 'FoodProduct'
-					WHEN prod_name = 'Kenyan Gifts and Souvenirs' THEN 'Merchandise'
-					WHEN prod_name = 'Shipping' THEN 'Shipping'
-					WHEN prod_name = 'Pinot Noir Case Special 10/22' THEN 'Wine'
-					WHEN prod_name = 'Rose Case Special 10/22' THEN 'Wine'
-					WHEN prod_name = 'T Shirt - black' THEN 'Merchandise'
-					WHEN prod_name = 'T Shirt - white' THEN 'Merchandise'
-					ELSE prod_type
-				END AS clean_prod_type,
-				prod_name,
 				prod_retail_price,
 				ROW_NUMBER() OVER (PARTITION BY prod_SKU ORDER BY order_date DESC) AS rank_number -- Use latest known product by order date
 			FROM bronze.wd_order_details
@@ -196,15 +180,11 @@ BEGIN
 		--Pull final dimensions from the CTE above and insert into silver.dim_products table
 		INSERT INTO silver.dim_products (
 			prod_SKU,
-			prod_type,
-			prod_name,
 			prod_retail_price
 		)
 		
 		SELECT 
 			prod_SKU,
-			clean_prod_type as prod_type,
-			prod_name,
 			prod_retail_price
 		FROM CTE_ranked_products
 		WHERE rank_number = 1
@@ -286,7 +266,7 @@ BEGIN
 				bank_date,
 				bank_transaction,
 				bank_transaction_name,
-			-- ⬇️ Randomly adjusted bank_amount (between +1% and +200%)
+			-- Randomly adjusted bank_amount (between +1% and +200%)
 				CAST(bank_amount * (1 + (ABS(CHECKSUM(NEWID())) % 201) * 0.01) AS MONEY) AS transaction_amount,
 				transaction_type,
 				revenue_type,
