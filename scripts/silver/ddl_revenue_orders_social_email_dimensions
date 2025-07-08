@@ -45,7 +45,7 @@ CREATE TABLE silver.wd_order_details (
 GO
 
 IF OBJECT_ID ('silver.dim_products' , 'U') IS NOT NULL
-	DROP TABLE silver.dim_product;
+	DROP TABLE silver.dim_products;
 GO
   
 CREATE TABLE silver.dim_products (
