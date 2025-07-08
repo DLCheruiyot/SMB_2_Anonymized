@@ -15,11 +15,11 @@ Parameters:
 	  This stored procedure does not accept any parameters or return any values.
 
 Usage Example:
-    EXEC Silver.load_silver_sales;
+    EXEC Silver.load_silver_data;
 ===============================================================================
 */
 
-CREATE OR ALTER PROCEDURE silver.load_silver_sales AS
+CREATE OR ALTER PROCEDURE silver.load_silver_data AS
 BEGIN
     DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME; 
     BEGIN TRY
@@ -228,19 +228,15 @@ BEGIN
 				bank_amount,
 				-- Classifying the type of transaction i.e. Revenue vs Expense vs CashInjection
 				CASE	
-					WHEN bank_transaction = 'DEBIT'
-						OR TRY_CAST(bank_transaction AS FLOAT) IS NOT NULL
-					THEN 'Expense'
 					WHEN bank_transaction = 'CREDIT' AND (
 							UPPER(bank_transaction_name) = 'MOBILE CHECK DEPOSIT' OR
-							UPPER(bank_transaction_name) LIKE '%ZELLE INSTANT PMT FROM KARUGA%' OR
-							UPPER(bank_transaction_name) LIKE '%ZELLE INSTANT PMT FROM MARIAM%' OR
+							UPPER(bank_transaction_name) LIKE '%ZELLE INSTANT PMT FROM CUSTOMER%' OR
 							UPPER(bank_transaction_name) LIKE '%ZELLE STANDARD PMT FROM%' OR
-							UPPER(bank_transaction_name) LIKE '%REAL TIME PAYMENT FROM KARUGA%' OR
+							UPPER(bank_transaction_name) LIKE '%REAL TIME PAYMENT FROM CUSTOMER%' OR
 							UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT CASHAPP' OR
 							UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT CASH APP' OR
 							UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT JPMORGAN CHASE' OR
-							UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT WAYAPAY LIMITED' OR
+							UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT POS Provider' OR
 							UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT VENMO' OR
 							UPPER(bank_transaction_name) LIKE '%INTERNET BANKING TRANSFER DEPOSIT%' OR
 							UPPER(bank_transaction_name) LIKE '%MOBILE BANKING TRANSFER DEPOSIT%' OR
@@ -259,15 +255,14 @@ BEGIN
 					THEN 'FarmstayRevenue'
 					WHEN	
 						UPPER(bank_transaction_name) LIKE '%EVENTBRITE%' OR
-						UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT WWW.MELLOWOODVIN'
+						UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT WWW.WINERYSITE'
 					THEN 'EventRevenue'
 					WHEN bank_transaction = 'CREDIT' AND (	
 								UPPER(bank_transaction_name) LIKE '%ELECTRONIC DEPOSIT BANKCARD%' OR
 								UPPER(bank_transaction_name) LIKE '%ELECTRONIC DEPOSIT SQUARE INC%' OR
 								(
 									UPPER(bank_transaction_name) LIKE '%ZELLE INSTANT PMT%' AND
-									UPPER(bank_transaction_name) NOT LIKE '%ZELLE INSTANT PMT FROM KARUGA%' AND
-									UPPER(bank_transaction_name) NOT LIKE '%ZELLE INSTANT PMT FROM MARIAM%' 
+									UPPER(bank_transaction_name) NOT LIKE '%ZELLE INSTANT PMT FROM CUSTOMER%'
 								)
 							)
 					THEN 'WineryRevenue'
