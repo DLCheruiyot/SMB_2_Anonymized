@@ -23,10 +23,9 @@ UPDATE bronze.wd_order_details
 SET cust_email = 'user' + RIGHT(CAST(ABS(CHECKSUM(NEWID())) AS VARCHAR), 5) + '@example.com'
 WHERE cust_email IS NOT NULL;
 
--- Step 4: Remove business name from prod_name field if present
-UPDATE bronze.wd_order_details
-SET prod_name = REPLACE(prod_name, 'Mellowood Vineyard', '')
-WHERE prod_name LIKE '%Mellowood Vineyard%';
+-- Step 4: Drop Sensitive Product Fields
+ALTER TABLE bronze.wd_order_details DROP COLUMN prod_name;
+ALTER TABLE bronze.wd_order_details DROP COLUMN prod_type;
 
 -- Step 5: Randomize quantity between 1 and 12
 UPDATE bronze.wd_order_details
