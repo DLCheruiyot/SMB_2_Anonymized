@@ -8,6 +8,7 @@ Script Purpose:
 ===============================================================================================================
 */
 
+-- Defining Revenue Table - derived from bankfeed
 IF OBJECT_ID ('silver.revenue' , 'U') IS NOT NULL
 	DROP TABLE silver.revenue;
 GO
@@ -24,6 +25,7 @@ CREATE TABLE silver.revenue (
 );
 GO
 
+-- Defining Order Details Table - derived from CRM
 IF OBJECT_ID ('silver.wd_order_details' , 'U') IS NOT NULL
 	DROP TABLE silver.wd_order_details;
 GO
@@ -44,6 +46,8 @@ CREATE TABLE silver.wd_order_details (
 
 GO
 
+-- Defining Products Dimension table - derived from CRM
+-- Product name and Product Type removed for anonymity
 IF OBJECT_ID ('silver.dim_products' , 'U') IS NOT NULL
 	DROP TABLE silver.dim_products;
 GO
@@ -56,6 +60,7 @@ CREATE TABLE silver.dim_products (
 
 GO
 
+-- Defining Customers Dimension table - derived from CRM
 IF OBJECT_ID ('silver.dim_customers' , 'U') IS NOT NULL
 	DROP TABLE silver.dim_customers;
 GO
@@ -78,7 +83,7 @@ CREATE TABLE silver.dim_customers (
 
 GO
 
---mailchimp_email_marketing table
+-- Defining Email Metrics table - derived from Mailchimp
 IF OBJECT_ID ('silver.mailchimp_email_marketing' , 'U') IS NOT NULL
 	DROP TABLE silver.mailchimp_email_marketing;
 GO
@@ -109,7 +114,8 @@ CREATE TABLE silver.mailchimp_email_marketing (
 	);
 
 GO
---facebook_data
+
+-- Defining Social Media Metrics table - derived from META
 IF OBJECT_ID ('silver.facebook_data', 'U') IS NOT NULL
 	DROP TABLE silver.facebook_data;
 GO
@@ -125,7 +131,7 @@ CREATE TABLE silver.facebook_data (
 	);
 
 GO
---instagram_data
+-- Defining Social Media Metrics table - derived from META
 IF OBJECT_ID ('silver.instagram_data', 'U') IS NOT NULL
 	DROP TABLE silver.instagram_data;
 GO
