@@ -80,23 +80,11 @@ ON i.instagram_date = r.instagram_date;
 -- Updating bronze.mailchimp_email_marketing
 ---------------------------------------------------------------------------------------------
 -- 1. Update email_title
-UPDATE bronze.mailchimp_email_marketing
-SET email_title = REPLACE(REPLACE(email_title, 'Mellowood', 'Winery'), 'Fair Play', 'AVA')
-WHERE email_title LIKE '%Mellowood%' OR email_title LIKE '%Fair Play%';
+-- Step: Drop email_title and email_subject columns from bronze.mailchimp_email_marketing
+ALTER TABLE bronze.mailchimp_email_marketing
+DROP COLUMN email_title, email_subject;
 
--- 2. Update email_subject
-UPDATE bronze.mailchimp_email_marketing
-SET email_subject = 
-    REPLACE(
-        REPLACE(
-            REPLACE(email_subject, 'Mellowood', 'Winery'),
-        'Fair Play', 'AVA'),
-    'Mariam', 'Winemaker')
-WHERE email_subject LIKE '%Mellowood%' 
-   OR email_subject LIKE '%Fair Play%' 
-   OR email_subject LIKE '%Mariam%';
-
--- 3. Update email_audience
+-- 2. Update email_audience
 UPDATE bronze.mailchimp_email_marketing
 SET email_audience = REPLACE(REPLACE(email_audience, 'Mellowood', 'Winery'), 'Fair Play', 'AVA')
 WHERE email_audience LIKE '%Mellowood%' OR email_audience LIKE '%Fair Play%';
