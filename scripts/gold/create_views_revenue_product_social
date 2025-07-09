@@ -15,7 +15,7 @@ Usage:
 ===============================================================================
 */
 -- =============================================================================
--- Create Fact Table: fact_revenue, daily_revenue, daily_social_media_data, 
+-- Create Fact Table: daily_revenue, daily_social_media_data, 
 ---customer_order_summary, product_summary
 -- =============================================================================
 
