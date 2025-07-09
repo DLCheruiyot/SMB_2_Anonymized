@@ -19,34 +19,22 @@ Usage Notes:
 SELECT * FROM silver.dim_customers
 WHERE data_quality_flag = 'Complete';
 
--- CHECKING SILVER.BANK_CASH_FLOWS TABLE
-
---Check that Expense records DO NOT have an entry in the revenue_type field i.e. Expenses are treated separate from Revenue
-SELECT TOP 1000 *
-FROM silver.business_cash_flows
-WHERE transaction_type = 'Expense' AND
-revenue_type IS NOT NULL;
-
---Check that CashInjection records DO NOT have an entry in the revenue_type field i.e. CashInjections are treated separate from Revenue
-SELECT TOP 1000 *
-FROM silver.business_cash_flows
-WHERE transaction_type = 'CashInjection' AND
-revenue_type IS NOT NULL;
+-- CHECKING SILVER.REVENUE TABLE
 
 --Check that all Revenue records also have a 'revenue_type' that is either Winery, Farmstay or Event. The query should result in a blank result 
 SELECT TOP 1000 *
-FROM silver.business_cash_flows
+FROM silver.revenue
 WHERE transaction_type = 'Revenue' AND
 revenue_type IS NULL;
 
 --Confirming that Winery Revenue records also include a winery_revenue_source entry such as WineDirect, Square, Zelle etc. This query should be blank 
-SELECT * FROM silver.business_cash_flows
+SELECT * FROM silver.revenue
 WHERE revenue_type = 'WineryRevenue' AND
 	  winery_revenue_source IS NULL;
 
 --Confirming that Farmstay Revenue is ONLY from Airbnb Payments or VRBO
 SELECT TOP 1000 *
-FROM silver.business_cash_flows
+FROM silver.revenue
 WHERE revenue_type = 'FarmstayRevenue';
 
 -- CHECKING SILVER.WD_ORDER_DETAILS
