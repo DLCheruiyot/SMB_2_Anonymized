@@ -32,7 +32,7 @@ BEGIN
 		PRINT 'Loading CRM Tables';
 		PRINT '------------------------------------------------';
 
-		-- Loading silver.wd_order_details (This is a Wine Direct table stripped of duplicated customer and product records)
+		-- Loading silver.wd_order_details (This is a CRM table stripped of duplicated customer and product records)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.wd_order_details';
 		TRUNCATE TABLE silver.wd_order_details;
