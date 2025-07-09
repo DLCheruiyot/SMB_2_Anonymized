@@ -5,7 +5,7 @@ Script for Generation of a Date Dimension table
 Script Purpose:
     This script creates a date table starting from Jan 1, 2021 to Dec 31, 2026.
 	It also includes extra fields that mark quarters, seasons, US holiday and a Special Events field for important dates 
-	for this business (e.g. Passport Festival).
+	for this business.
 	To have the special events field populate, ensure that a special_events_calendar is loaded first.
 =========================================================================================================================
 */
