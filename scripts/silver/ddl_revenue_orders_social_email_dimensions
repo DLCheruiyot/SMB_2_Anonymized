@@ -20,7 +20,7 @@ CREATE TABLE silver.revenue (
 	transaction_amount DECIMAL (12, 2),
 	transaction_type NVARCHAR (50),
 	revenue_type NVARCHAR (50),
-	winery_revenue_source NVARCHAR (50),
+	retail_revenue_source NVARCHAR (50),
 	dwh_create_date DATETIME2 DEFAULT GETDATE()
 );
 GO
