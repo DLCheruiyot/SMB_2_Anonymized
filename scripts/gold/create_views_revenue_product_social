@@ -19,22 +19,6 @@ Usage:
 ---customer_order_summary, product_summary
 -- =============================================================================
 
---Create fact_revenue table with all revenue transactions un-aggregated or un-filtered
-IF OBJECT_ID('gold.fact_revenue', 'V') IS NOT NULL
-    DROP VIEW gold.fact_revenue;
-GO
-
-CREATE VIEW gold.fact_revenue AS
-SELECT
-    transaction_date,
-	transaction_name,
-	transaction_amount,
-	revenue_type,
-	winery_revenue_source
-FROM silver.business_cash_flows
-WHERE transaction_type = 'Revenue';
-GO
-
 -- Create daily revenue summary by revenue_type for daily trend charts
 IF OBJECT_ID('gold.vw_revenue_daily', 'V') IS NOT NULL
     DROP VIEW gold.vw_revenue_daily;
@@ -45,19 +29,17 @@ SELECT
     transaction_date,
 	revenue_type,
 	SUM(transaction_amount) AS total_revenue
-FROM silver.business_cash_flows
-WHERE 
-	transaction_type = 'Revenue' AND
-	transaction_date BETWEEN '2021-01-01' AND '2026-01-01'
+FROM silver.revenue
+WHERE transaction_date BETWEEN '2021-01-01' AND '2026-01-01'
 GROUP BY transaction_date, revenue_type;
 GO
 
 -- Combined facebook and Instagram data from silver layer and created a unique_id for the table
-IF OBJECT_ID('gold.social_media_data', 'V') IS NOT NULL
-    DROP VIEW gold.social_media_data;
+IF OBJECT_ID('gold.fact_sm_data', 'V') IS NOT NULL
+    DROP VIEW gold.fact_sm_data;
 GO
 
-CREATE VIEW gold.social_media_data AS
+CREATE VIEW gold.fact_sm_data AS
 SELECT
 	ROW_NUMBER() OVER (ORDER BY facebook_date) AS unique_id,
 	facebook_date as dates,
@@ -89,7 +71,6 @@ GO
 CREATE VIEW gold.vw_prod_summary AS
 SELECT
 	w.prod_SKU,
-	p.prod_name,
 	p.prod_retail_price AS retail_price,
 	AVG(w.order_subtotal) AS avg_sales_price,
 	SUM(w.quantity) AS total_prod_quantity,
@@ -102,10 +83,9 @@ SELECT
 FROM silver.wd_order_details w
 LEFT JOIN silver.dim_products p 
 	  ON w.prod_SKU = p.prod_SKU
-WHERE p.prod_type IN ('Wine')
+WHERE p.prod_retail_price IS NOT NULL
 GROUP BY 
 		 w.prod_SKU,
-		 p.prod_name,
 		 p.prod_retail_price;
 GO
 
@@ -130,12 +110,12 @@ WITH customer_orders AS (
 	top_category AS (
     SELECT 
         o.cust_num,
-        p.prod_name,
+        p.prod_SKU,
         COUNT(*) AS prod_count,
         ROW_NUMBER() OVER (PARTITION BY o.cust_num ORDER BY COUNT(*) DESC) AS rn --ranks most order product per cust_num
     FROM silver.wd_order_details o
     LEFT JOIN silver.dim_products p ON o.prod_sku = p.prod_sku
-    GROUP BY o.cust_num, p.prod_name
+    GROUP BY o.cust_num, p.prod_SKU
 )
 SELECT 
     c.cust_num,
@@ -168,7 +148,7 @@ SELECT
     END AS cust_engagement_status,
 
     -- Most Purchased Product
-    tc.prod_name AS cust_top_product
+    tc.prod_SKU AS cust_top_product
 
 FROM silver.dim_customers c
 LEFT JOIN customer_orders co ON c.cust_num = co.cust_num
