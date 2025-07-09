@@ -1,7 +1,7 @@
 /*
 ===============================================================================
 Stored Procedure: Load Silver Layer (Bronze -> Silver) for Order Details, Customer_Dim, 
-Product_Dim, Bank_Transactions, Social Media Metrics, Email Marketing Metrics
+Product_Dim, Revenue, Social Media Metrics, Email Marketing Metrics
 ===============================================================================
 Script Purpose:
     This stored procedure performs the ETL (Extract, Transform, Load) process to 
@@ -193,7 +193,7 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.revenue (i.e. enriched bank transactions data from bronze layer)
+		-- Loading silver.revenue (i.e. enriched bankfeed data from bronze layer)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.revenue';
 		TRUNCATE TABLE silver.revenue;
@@ -228,15 +228,15 @@ BEGIN
 					THEN 'CashInjection'
 					ELSE 'Revenue'
 				END AS transaction_type,
-				-- Defining revenue_type field where applicable (Farmstay vs Winery vs Event vs NULL)
+				-- Defining revenue_type field where applicable (Hospitality vs Retail vs Events vs NULL)
 				CASE 
 					WHEN 
 						UPPER(bank_transaction_name) IN ('ELECTRONIC DEPOSIT AIRBNB PAYMENTS', 'ELECTRONIC DEPOSIT VRBO')
-					THEN 'FarmstayRevenue'
+					THEN 'Hospitality'
 					WHEN	
 						UPPER(bank_transaction_name) LIKE '%EVENTBRITE%' OR
 						UPPER(bank_transaction_name) = 'ELECTRONIC DEPOSIT WWW.WINERYSITE'
-					THEN 'EventRevenue'
+					THEN 'Events'
 					WHEN bank_transaction = 'CREDIT' AND (	
 								UPPER(bank_transaction_name) LIKE '%ELECTRONIC DEPOSIT BANKCARD%' OR
 								UPPER(bank_transaction_name) LIKE '%ELECTRONIC DEPOSIT SQUARE INC%' OR
@@ -245,7 +245,7 @@ BEGIN
 									UPPER(bank_transaction_name) NOT LIKE '%ZELLE INSTANT PMT FROM CUSTOMER%'
 								)
 							)
-					THEN 'WineryRevenue'
+					THEN 'Retail'
 					ELSE NULL
 				END AS revenue_type
 				FROM bronze.bank_transactions
@@ -273,18 +273,18 @@ BEGIN
 			-- Derive business unit revenue source
 				CASE 
 					WHEN transaction_type = 'Revenue'
-						AND revenue_type <> 'FarmstayRevenue' 
-						AND	UPPER(bank_transaction_name) LIKE '%ELECTRONIC DEPOSIT BANKCARD%' THEN 'WineDirect'
+						AND revenue_type <> 'Hospitality' 
+						AND	UPPER(bank_transaction_name) LIKE '%ELECTRONIC DEPOSIT BANKCARD%' THEN 'WD'
 					WHEN transaction_type = 'Revenue'
-						AND revenue_type <> 'FarmstayRevenue' 
+						AND revenue_type <> 'Hospitality' 
 						AND UPPER(bank_transaction_name) LIKE '%ELECTRONIC DEPOSIT SQUARE INC%' THEN 'Square'
 					WHEN transaction_type = 'Revenue'
-						AND revenue_type <> 'FarmstayRevenue' 
+						AND revenue_type <> 'Hospitality' 
 						AND UPPER(bank_transaction_name) LIKE '%ZELLE INSTANT PMT%' THEN 'Zelle'
 					ELSE NULL		
-				END AS winery_revenue_source
+				END AS retail_revenue_source
 			FROM CTE_base_transactions
-			WHERE transaction_type <> 'CashInjection'
+			WHERE transaction_type <> 'CashInjection'  --This ensures we are only capturing revenue records
 
 		SET @end_time = GETDATE();
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
@@ -351,7 +351,8 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.mailchimp_email_marketing (Daily Metrics for Instagram)
+		-- Loading silver.mailchimp_email_marketing (Daily Metrics for Email Marketing)
+		-- Email titles and subjects have been omitted for privacy
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.mailchimp_email_marketing';
 		TRUNCATE TABLE silver.mailchimp_email_marketing;
@@ -359,8 +360,6 @@ BEGIN
 
 			INSERT INTO silver.mailchimp_email_marketing (
 				unique_id,
-				email_title,
-				email_subject,
 				email_audience,
 				send_date,
 				send_time,
@@ -385,8 +384,6 @@ BEGIN
 
 			SELECT
 				unique_id,
-				email_title,
-				email_subject,
 				email_audience,
 				CAST(send_date AS DATE) as send_date,
 				CAST(send_date AS TIME(0)) as send_time,
