@@ -1,5 +1,5 @@
 
-# SMB_2_Anonymized: End-to-End Data Warehouse for a Small Hospitality Business
+# SMB_2_Anonymized: End-to-End Data Warehouse for a Hospitality Business
 
 Project Type: End-to-End Data Warehouse + Power BI Reporting
 Business Domain: Retail Winery (Anonymized)
