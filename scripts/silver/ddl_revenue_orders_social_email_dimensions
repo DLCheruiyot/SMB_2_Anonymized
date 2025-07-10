@@ -1,6 +1,6 @@
 /*
 ===============================================================================================================
-DDL Script: Create Silver Tables (Revenue, Orders, Customer, Product, Social Metrics, Email Metrics)
+DDL Script: Create Silver Tables (Revenue, Orders, Customers, Products, Social Media Metrics, Email Mktg Metrics)
 ===============================================================================================================
 Script Purpose:
   This script creates tables in 'silver' schema, dropping existing tables if they already exist.
@@ -25,7 +25,7 @@ CREATE TABLE silver.revenue (
 );
 GO
 
--- Defining Order Details Table - derived from CRM
+-- Defining Order Details Table - derived from POS Platforms
 IF OBJECT_ID ('silver.wd_order_details' , 'U') IS NOT NULL
 	DROP TABLE silver.wd_order_details;
 GO
@@ -46,7 +46,7 @@ CREATE TABLE silver.wd_order_details (
 
 GO
 
--- Defining Products Dimension table - derived from CRM
+-- Defining Products Dimension table - derived from POS Platforms
 -- Product name and Product Type removed for anonymity
 IF OBJECT_ID ('silver.dim_products' , 'U') IS NOT NULL
 	DROP TABLE silver.dim_products;
