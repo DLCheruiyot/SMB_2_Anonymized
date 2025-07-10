@@ -1,7 +1,7 @@
 /*
-===============================================================================
+=====================================================================================================
 DDL Script: Create Gold Views
-===============================================================================
+=====================================================================================================
 Script Purpose:
     This script creates views for the Gold layer in the data warehouse. 
     The Gold layer represents the final views derived from the fact tables and 
@@ -12,12 +12,11 @@ Script Purpose:
 
 Usage:
     - These views can be queried directly for analytics and reporting.
-===============================================================================
+=====================================================================================================
 */
--- =============================================================================
--- Create Fact Table: daily_revenue, daily_social_media_data, 
----customer_order_summary, product_summary
--- =============================================================================
+-- ==================================================================================================
+-- Create Fact Table: daily_revenue, daily_social_media_data, customer_order_summary, product_summary
+-- ==================================================================================================
 
 -- Create daily revenue summary by revenue_type for daily trend charts
 IF OBJECT_ID('gold.vw_revenue_daily', 'V') IS NOT NULL
@@ -34,7 +33,7 @@ WHERE transaction_date BETWEEN '2021-01-01' AND '2026-01-01'
 GROUP BY transaction_date, revenue_type;
 GO
 
--- Combined facebook and Instagram data from silver layer and created a unique_id for the table
+-- Combine facebook and Instagram data from silver layer and create a unique_id for the table
 IF OBJECT_ID('gold.fact_sm_data', 'V') IS NOT NULL
     DROP VIEW gold.fact_sm_data;
 GO
@@ -63,7 +62,7 @@ FROM silver.facebook_data f
 ON f.facebook_date = i.instagram_date;
 GO
 
---Create product_summary view with revenue, quantity and averages per product for Wines only
+-- Create product_summary view with revenue, quantity and averages per product
 IF OBJECT_ID('gold.vw_prod_summary', 'V') IS NOT NULL
     DROP VIEW gold.vw_prod_summary;
 GO
@@ -85,11 +84,11 @@ LEFT JOIN silver.dim_products p
 	  ON w.prod_SKU = p.prod_SKU
 WHERE p.prod_retail_price IS NOT NULL
 GROUP BY 
-		 w.prod_SKU,
-		 p.prod_retail_price;
+	w.prod_SKU,
+	p.prod_retail_price;
 GO
 
---Create customer_summary view with order totals, quantity, averages and categorization per customer
+--Create customer_summary view with order totals, quantities, averages and categorization per customer
 IF OBJECT_ID('gold.vw_cust_summary', 'V') IS NOT NULL
     DROP VIEW gold.vw_cust_summary;
 GO
@@ -117,6 +116,7 @@ WITH customer_orders AS (
     LEFT JOIN silver.dim_products p ON o.prod_sku = p.prod_sku
     GROUP BY o.cust_num, p.prod_SKU
 )
+
 SELECT 
     c.cust_num,
     c.cust_status,
