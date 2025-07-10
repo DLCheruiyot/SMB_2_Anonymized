@@ -1,5 +1,5 @@
 
-# 📊 SMB_2_Anonymized: End-to-End Data Warehouse for a Small Business (Winery Use Case)
+# 📊 SMB_2_Anonymized: End-to-End Data Warehouse for a Small Hospitality Business
 
 This repository showcases a fully anonymized SQL Server-based data warehouse project designed for a small, consumer-facing business. The solution includes structured ETL layers (Bronze → Silver → Gold), performance-optimized views, and an integrated Power BI report — all built to support robust insights across sales, customer behavior, marketing, and revenue trends.
 
