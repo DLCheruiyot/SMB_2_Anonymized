@@ -1,5 +1,9 @@
 
-# 📊 SMB_2_Anonymized: End-to-End Data Warehouse for a Small Hospitality Business
+# SMB_2_Anonymized: End-to-End Data Warehouse for a Small Hospitality Business
+
+Project Type: End-to-End Data Warehouse + Power BI Reporting
+Business Domain: Retail Winery (Anonymized)
+Tools Used: SQL Server, dbt (conceptually), Power BI, T-SQL, Power Query
 
 This repository showcases a fully anonymized SQL Server-based data warehouse project designed for a small, consumer-facing business. The solution includes structured ETL layers (Bronze → Silver → Gold), performance-optimized views, and an integrated Power BI report — all built to support robust insights across sales, customer behavior, marketing, and revenue trends.
 
@@ -26,30 +30,64 @@ This repository showcases a fully anonymized SQL Server-based data warehouse pro
 
 ---
 
-## 🔍 Features
+## Features
 
 - **Layered Data Architecture**  
-  - **Bronze Layer:** Raw, structured tables with anonymized inputs.
-  - **Silver Layer:** Cleansed and transformed business-ready tables.
-  - **Gold Layer:** Final reporting views for direct use in BI tools.
+The solution uses a multi-layer warehouse architecture inspired by the medallion approach:
+
+- Bronze Layer – Raw structured data from CSVs and external systems
+- Silver Layer – Cleaned, enriched, and normalized dimension and fact tables
+- Gold Layer – Reporting views and final aggregates used in Power BI
+
+No raw data or CSVs are included in this repository to preserve privacy.
 
 - **Anonymization Logic Highlights**  
   - Randomized names, emails, quantities, and revenue values.
   - Product names and customer PII removed or obfuscated.
-  - Business-specific terms replaced (e.g. "Mellowood" → "Winery").
+  - Business-specific terms replaced
   - Revenue values scaled slightly to mask actual figures.
 
 - **Power BI Integration (Not Included)**  
-  Screenshots demonstrate visualizations without distributing `.pbix`. The report includes:
-  - Revenue trends (YoY, QoQ, monthly)
-  - Top customer segments and regions
-  - Email campaign analytics
-  - Product performance summaries
-  - Social media impact metrics
+  The report is organized into the following pages:
+
+1. Revenue Overview – Monthly and quarterly trends, YoY changes, sales channels
+2. Customer Insight – Top customers, customer lifecycle, retention flags
+3. Customer Map – Top customer cities by order volume
+4. Social Media – Facebook and Instagram metrics over time
+5. Email Marketing – Campaign performance (Open Rate, CTR), audience trends
+6. Product Metrics – SKU performance, pricing trends, lifecycle
+
+Screenshots of report pages are provided in the /screenshots folder.
+
+---
+**Highlights & Features**
+- Custom Data Modeling – Surrogate keys, fact/dim separation, CTEs for transformations
+- Anonymization Layer – Dynamic replacements for names, emails, and transaction values
+- Advanced Metrics – YoY % changes, tenure calculations, engagement ratios
+- Data Quality Rules – Junk email filters, zip code validators, data completeness flags
+- Load Procedure Design – Robust stored procedure for layer-to-layer ETL
+
+**What’s Not Included (by design)**
+- Source CSVs or financial data
+- Anonymization scripts (may reveal original entity)
+- Fully runnable CREATE DATABASE scripts
+  
+For security reasons, these components are omitted but can be discussed privately upon request.
+
+**Purpose of This Repo**
+This project serves as a portfolio demonstration of the following capabilities:
+
+- SQL-based warehouse design and transformation
+- Business KPI modeling for a small business
+- Power BI dashboard design and storytelling
+- Data anonymization strategy for client confidentiality
+
+**Questions or Collaboration?**
+If you'd like to discuss this project, request a deeper walkthrough, or talk about how this process can be applied to your organization, feel free to reach out via LinkedIn or open an issue in this repo.
 
 ---
 
-## 🖼️ Sample Visualizations
+## Sample Visualizations
 
 > Below are select Power BI report snapshots created using the anonymized dataset.
 
@@ -62,21 +100,6 @@ This repository showcases a fully anonymized SQL Server-based data warehouse pro
 | ![](report_snapshots/email_performance.png) | ![](report_snapshots/product_summary.png) |
 
 ---
-
-## 🚀 How to Use
-
-1. **Clone this repo** and open in SQL Server Management Studio (SSMS).
-2. Run the `create_database.sql` script to generate a fresh anonymized database.
-3. Load schema scripts (`ddl_bronze.sql`, `ddl_silver.sql`, `ddl_gold_views.sql`) in order.
-4. Use `load_silver_data.sql` to populate and transform the Silver layer.
-5. (Optional) Connect Power BI Desktop to explore the model using your own visuals.
-
----
-
-## 🔐 Disclaimer
-
-This anonymized dataset is intended for educational, portfolio, and demonstration purposes only.  
-All business identifiers, financial values, and sensitive fields have been randomized or removed.
 
 If you'd like a walkthrough of the full Power BI report or have questions about the modeling decisions, feel free to reach out or open an issue.
 
