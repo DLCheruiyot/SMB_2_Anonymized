@@ -8,5 +8,7 @@ Replaced product names with SKU-only representations.
 
 Randomized revenue amounts, order quantities, and marketing engagement metrics within realistic ranges.
 
+Masked any references to revenue types, email subject and email titles.
+
 All scripts referencing proprietary or client-specific terms have been excluded for confidentiality.
 
