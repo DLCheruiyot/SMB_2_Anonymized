@@ -3,7 +3,7 @@
 Script for Generation of a Date Dimension table
 =========================================================================================================================
 Script Purpose:
-    This script creates a date table starting from Jan 1, 2021 to Dec 31, 2026.
+    This script creates a date table starting from Jan 1, 2018 to Dec 31, 2026.
 	It also includes extra fields that mark quarters, seasons, US holiday and a Special Events field for important dates 
 	for this business.
 	To have the special events field populate, ensure that a special_events_calendar is loaded first.
@@ -98,7 +98,7 @@ SELECT
     END AS is_holiday,
 
     -- Special event flag - This pulls from the silver.special_events_calendar table so ensure that you've created that first
-		e.special_event_name
+	e.special_event_name
 
 FROM DateSequence as d
 LEFT JOIN silver.special_events_calendar as e
