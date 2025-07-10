@@ -85,6 +85,5 @@ If you'd like a walkthrough of the full Power BI report or have questions about 
 ## 🧠 Author
 
 **Daniel Cheruiyot**  
-Data & Insights Consultant | Financial Analyst | BI Developer  
-📧 [LinkedIn](https://www.linkedin.com/in/danielcheruiyot)  
-🌐 [Coming Soon: insightforimpact.org](#)
+Data & Insights Analyst | BI Developer  
+📧 [LinkedIn](https://www.linkedin.com/in/cheruiyotdaniel)  
