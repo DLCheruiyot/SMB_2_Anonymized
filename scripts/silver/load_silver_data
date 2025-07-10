@@ -1,7 +1,7 @@
 /*
 ===============================================================================
-Stored Procedure: Load Silver Layer (Bronze -> Silver) for Order Details, Customer_Dim, 
-Product_Dim, Revenue, Social Media Metrics, Email Marketing Metrics
+Stored Procedure: Load Silver Layer (Bronze -> Silver) for Revenue, Order Details, Customer_Dim, 
+Product_Dim, Social Media Metrics, Email Marketing Metrics
 ===============================================================================
 Script Purpose:
     This stored procedure performs the ETL (Extract, Transform, Load) process to 
@@ -29,10 +29,10 @@ BEGIN
         PRINT '================================================';
 
 		PRINT '------------------------------------------------';
-		PRINT 'Loading CRM Tables';
+		PRINT 'Loading POS, CRM and Bankfeed Tables';
 		PRINT '------------------------------------------------';
 
-		-- Loading silver.wd_order_details (This is a CRM table stripped of duplicated customer and product records)
+-- Loading silver.wd_order_details (This is a POS table stripped of duplicated customer and product records)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.wd_order_details';
 		TRUNCATE TABLE silver.wd_order_details;
@@ -65,7 +65,7 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.dim_customers (This table will include unique records of customers by their customer numbers)
+-- Loading silver.dim_customers (This table will include unique records of customers by their customer numbers)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.dim_customers';
 		TRUNCATE TABLE silver.dim_customers;
@@ -159,7 +159,7 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.dim_products (This table will include product details for each unique product. Prod_name and prod_type removed for privacy)
+-- Loading silver.dim_products (This table will include product details for each unique product. Prod_name and prod_type removed for privacy)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.dim_products';
 		TRUNCATE TABLE silver.dim_products;
@@ -193,7 +193,7 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.revenue (i.e. enriched bankfeed data from bronze layer)
+-- Loading silver.revenue (i.e. enriched bankfeed data from bronze layer)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.revenue';
 		TRUNCATE TABLE silver.revenue;
@@ -261,7 +261,7 @@ BEGIN
 				revenue_type,
 				winery_revenue_source
 			)
-			-- Pulling final table fields from CTE above and adding winery_revenue_source (e.g. WineDirect, Square etc.) to insert into silver.revenue
+		-- Pulling final table fields from CTE above and adding winery_revenue_source (e.g. WineDirect, Square etc.) to insert into silver.revenue
 			SELECT
 				bank_date,
 				bank_transaction,
@@ -290,11 +290,11 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		PRINT '------------------------------------------------';
-		PRINT 'Loading Marketing (Social Media and Email) Metrics Tables';
-		PRINT '------------------------------------------------';
+	PRINT '------------------------------------------------';
+	PRINT 'Loading Marketing (Social Media and Email Mktg) Metrics Tables';
+	PRINT '------------------------------------------------';
 
-		-- Loading silver.facebook_data (Daily Metrics for Facebook)
+	-- Loading silver.facebook_data (Daily Metrics for Facebook)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.facebook_data';
 		TRUNCATE TABLE silver.facebook_data;
@@ -323,7 +323,7 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.instagram_data (Daily Metrics for Instagram)
+	-- Loading silver.instagram_data (Daily Metrics for Instagram)
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.instagram_data';
 		TRUNCATE TABLE silver.instagram_data;
@@ -351,8 +351,8 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.mailchimp_email_marketing (Daily Metrics for Email Marketing)
-		-- Email titles and subjects have been omitted for privacy
+	-- Loading silver.mailchimp_email_marketing (Daily Metrics for Email Marketing)
+	-- Email titles and subjects have been omitted for privacy
         SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: silver.mailchimp_email_marketing';
 		TRUNCATE TABLE silver.mailchimp_email_marketing;
