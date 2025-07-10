@@ -1,21 +1,25 @@
 /*
-===============================================================================
+=============================================================================================================================================
 Quality Checks
-===============================================================================
+=============================================================================================================================================
 Script Purpose:
     This script performs various quality checks for data consistency, accuracy, 
     and standardization across the 'silver' layer. 
 Usage Notes:
     - Run these checks after data loading Silver Layer.
     - Investigate and resolve any discrepancies found during the checks.
-===============================================================================
+=============================================================================================================================================
 */
 
 -- CHECKING SILVER.DIM_CUSTOMERS TABLE FOR COMPLETENESS
 
---Confirming cleanliness of customer records marked as complete i.e. includes full name, birthdate and zip.
---silver.dim_customers table includes a field called 'data_quality_flag' that is either 'Complete' or 'Incomplete' based on combination of full_name, birth_date and zip.
--- Script below pulls all the records marked complete for eye-test on the fields mentioned above.
+/*
+Confirming cleanliness of customer records marked as complete i.e. includes full name, birthdate and zip.
+silver.dim_customers table includes a field called 'data_quality_flag' that is either 'Complete' or 'Incomplete' based on combination of 
+full_name, birth_date and zip.
+Script below pulls all the records marked complete for eye-test on the fields mentioned above.
+*/
+
 SELECT * FROM silver.dim_customers
 WHERE data_quality_flag = 'Complete';
 
