@@ -37,30 +37,29 @@ This repository showcases a fully anonymized SQL Server-based data warehouse pro
 
 ## Features
 
-- **Layered Data Architecture**  
+**Layered Data Architecture**  
 The solution uses a multi-layer warehouse architecture inspired by the medallion approach:
-
-- Bronze Layer – Raw structured data from CSVs and external systems
-- Silver Layer – Cleaned, enriched, and normalized dimension and fact tables
-- Gold Layer – Reporting views and final aggregates used in Power BI
+    - Bronze Layer – Raw structured data from CSVs and external systems
+    - Silver Layer – Cleaned, enriched, and normalized dimension and fact tables
+    - Gold Layer – Reporting views and final aggregates used in Power BI
 
 No raw data or CSVs are included in this repository to preserve privacy.
 
-- **Anonymization Logic Highlights**  
+**Anonymization Logic Highlights**  
   - Randomized names, emails, quantities, and revenue values.
   - Product names and customer PII removed or obfuscated.
   - Business-specific terms replaced
   - Revenue values scaled slightly to mask actual figures.
 
-- **Power BI Integration (Not Included)**  
+**Power BI Integration (Not Included)**  
   The report is organized into the following pages:
 
-1. Revenue Overview – Monthly and quarterly trends, YoY changes, sales channels
-2. Customer Insight – Top customers, customer lifecycle, retention flags
-3. Customer Map – Top customer cities by order volume
-4. Social Media – Facebook and Instagram metrics over time
-5. Email Marketing – Campaign performance (Open Rate, CTR), audience trends
-6. Product Metrics – SKU performance, pricing trends, lifecycle
+  1. Revenue Overview – Monthly and quarterly trends, YoY changes, sales channels
+  2. Customer Insight – Top customers, customer lifecycle, retention flags
+  3. Customer Map – Top customer cities by order volume
+  4. Social Media – Facebook and Instagram metrics over time
+  5. Email Marketing – Campaign performance (Open Rate, CTR), audience trends
+  6. Product Metrics – SKU performance, pricing trends, lifecycle
 
 Screenshots of report pages are provided in the /screenshots folder.
 
