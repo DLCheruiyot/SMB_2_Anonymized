@@ -99,7 +99,7 @@ If you'd like to discuss this project, request a deeper walkthrough, or talk abo
 
 | Revenue Trend (YoY%) | Customer Segments |
 |----------------------|-------------------|
-| ![]() | ![](report_snapshots/customer_segmentation.png) |
+| ![](screenshots/revenue_trend_snapshot.jpg) | ![](report_snapshots/customer_segmentation.png) |
 
 | Email Engagement | Product Revenue Summary |
 |------------------|-------------------------|
