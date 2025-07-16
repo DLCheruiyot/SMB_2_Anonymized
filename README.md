@@ -46,12 +46,12 @@ The solution uses a multi-layer warehouse architecture inspired by the medallion
 No raw data or CSVs are included in this repository to preserve privacy.
 
 **Anonymization Logic**  
-    - Replaced all customer names and emails with randomized placeholders.
-    - Removed or masked any references to identifiable product names or business locations.
-    - Replaced product names with SKU-only representations.
-    - Randomized revenue amounts, order quantities, customer locations and marketing engagement metrics within realistic ranges.
-    - Masked any references to revenue types and removed email subject and email titles.
-    - All scripts referencing proprietary or client-specific terms have been excluded for confidentiality.
+ - Replaced all customer names and emails with randomized placeholders.
+ - Removed or masked any references to identifiable product names or business locations.
+ - Replaced product names with SKU-only representations.
+ - Randomized revenue amounts, order quantities, customer locations and marketing engagement metrics within realistic ranges.
+ - Masked any references to revenue types and removed email subject and email titles.
+ - All scripts referencing proprietary or client-specific terms have been excluded for confidentiality.
 
 **Power BI Integration (Not Included)**  
   The report is organized into the following pages:
@@ -67,11 +67,11 @@ Screenshots of report pages are provided in the /screenshots folder.
 
 ---
 **Highlights & Features**
-    - Custom Data Modeling – Surrogate keys, fact/dim separation, CTEs for transformations, revenue, customer and product segmentation
-    - Anonymization Layer – Dynamic replacements for names, emails, and transaction values
-    - Advanced Metrics – YoY % changes, tenure calculations, engagement ratios (CTR, CTOR, Bounce Rate)
-    - Data Quality Rules – Junk email filters, zip code validators, data completeness flags
-    - Load Procedure Design – Robust stored procedure for layer-to-layer ETL with batch execution tracking (start/end timestamps and duration logging)
+- Custom Data Modeling – Surrogate keys, fact/dim separation, CTEs for transformations, revenue, customer and product segmentation
+- Anonymization Layer – Dynamic replacements for names, emails, and transaction values
+- Advanced Metrics – YoY % changes, tenure calculations, engagement ratios (CTR, CTOR, Bounce Rate)
+- Data Quality Rules – Junk email filters, zip code validators, data completeness flags
+- Load Procedure Design – Robust stored procedure for layer-to-layer ETL with batch execution tracking (start/end timestamps and duration logging)
 
 **What’s Not Included (by design)**
 - Source CSVs or financial data
