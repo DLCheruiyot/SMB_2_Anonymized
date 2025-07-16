@@ -39,19 +39,19 @@ This repository showcases a fully anonymized SQL Server-based data warehouse pro
 
 **Layered Data Architecture**  
 The solution uses a multi-layer warehouse architecture inspired by the medallion approach:
-    - Bronze Layer – Raw structured data from CSVs and external systems
-    - Silver Layer – Cleaned, enriched, and normalized dimension and fact tables
-    - Gold Layer – Reporting views and final aggregates used in Power BI
+ - Bronze Layer – Raw structured data from CSVs and external systems
+ - Silver Layer – Cleaned, enriched, and normalized dimension and fact tables
+ - Gold Layer – Reporting views and final aggregates used in Power BI
 
 No raw data or CSVs are included in this repository to preserve privacy.
 
 **Anonymization Logic**  
-      - Replaced all customer names and emails with randomized placeholders.
-      - Removed or masked any references to identifiable product names or business locations.
-      - Replaced product names with SKU-only representations.
-      - Randomized revenue amounts, order quantities, customer locations and marketing engagement metrics within realistic ranges.
-      - Masked any references to revenue types and removed email subject and email titles.
-      - All scripts referencing proprietary or client-specific terms have been excluded for confidentiality.
+    - Replaced all customer names and emails with randomized placeholders.
+    - Removed or masked any references to identifiable product names or business locations.
+    - Replaced product names with SKU-only representations.
+    - Randomized revenue amounts, order quantities, customer locations and marketing engagement metrics within realistic ranges.
+    - Masked any references to revenue types and removed email subject and email titles.
+    - All scripts referencing proprietary or client-specific terms have been excluded for confidentiality.
 
 **Power BI Integration (Not Included)**  
   The report is organized into the following pages:
