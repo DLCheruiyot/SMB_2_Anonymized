@@ -45,31 +45,33 @@ The solution uses a multi-layer warehouse architecture inspired by the medallion
 
 No raw data or CSVs are included in this repository to preserve privacy.
 
-**Anonymization Logic Highlights**  
-  - Randomized names, emails, quantities, and revenue values.
-  - Product names and customer PII removed or obfuscated.
-  - Business-specific terms replaced
-  - Revenue values scaled slightly to mask actual figures.
+**Anonymization Logic**  
+      - Replaced all customer names and emails with randomized placeholders.
+      - Removed or masked any references to identifiable product names or business locations.
+      - Replaced product names with SKU-only representations.
+      - Randomized revenue amounts, order quantities, customer locations and marketing engagement metrics within realistic ranges.
+      - Masked any references to revenue types and removed email subject and email titles.
+      - All scripts referencing proprietary or client-specific terms have been excluded for confidentiality.
 
 **Power BI Integration (Not Included)**  
   The report is organized into the following pages:
 
-  1. Revenue Overview – Monthly and quarterly trends, YoY changes, sales channels
-  2. Customer Insight – Top customers, customer lifecycle, retention flags
+  1. Revenue Detail – Monthly and quarterly trends by revenue types and sales channels, includes YoY change in tooltips, special revenue events and lifetime sales summaries.
+  2. Customer Insight – Demographic breakdown of sales, customer revenue by LTV status, tenure bands and loyalty status, top customers, retention flags
   3. Customer Map – Top customer cities by order volume
-  4. Social Media – Facebook and Instagram metrics over time
-  5. Email Marketing – Campaign performance (Open Rate, CTR), audience trends
-  6. Product Metrics – SKU performance, pricing trends, lifecycle
+  4. Social Media – Facebook and Instagram engagement metrics over time (interactions, reach, visits, follows, CTR)
+  5. Email Marketing – Campaign performance (successful deliveries, open rate, click rate, bounce rate, CTOR), audience trends, top email campaigns
+  6. Product Metrics – SKU performance (total sales, avg sales price), inventory status (stale vs active), top product
 
 Screenshots of report pages are provided in the /screenshots folder.
 
 ---
 **Highlights & Features**
-- Custom Data Modeling – Surrogate keys, fact/dim separation, CTEs for transformations
-- Anonymization Layer – Dynamic replacements for names, emails, and transaction values
-- Advanced Metrics – YoY % changes, tenure calculations, engagement ratios
-- Data Quality Rules – Junk email filters, zip code validators, data completeness flags
-- Load Procedure Design – Robust stored procedure for layer-to-layer ETL
+    - Custom Data Modeling – Surrogate keys, fact/dim separation, CTEs for transformations, revenue, customer and product segmentation
+    - Anonymization Layer – Dynamic replacements for names, emails, and transaction values
+    - Advanced Metrics – YoY % changes, tenure calculations, engagement ratios (CTR, CTOR, Bounce Rate)
+    - Data Quality Rules – Junk email filters, zip code validators, data completeness flags
+    - Load Procedure Design – Robust stored procedure for layer-to-layer ETL with batch execution tracking (start/end timestamps and duration logging)
 
 **What’s Not Included (by design)**
 - Source CSVs or financial data
@@ -97,7 +99,7 @@ If you'd like to discuss this project, request a deeper walkthrough, or talk abo
 
 | Revenue Trend (YoY%) | Customer Segments |
 |----------------------|-------------------|
-| ![](report_snapshots/revenue_trend.png) | ![](report_snapshots/customer_segmentation.png) |
+| ![]() | ![](report_snapshots/customer_segmentation.png) |
 
 | Email Engagement | Product Revenue Summary |
 |------------------|-------------------------|
