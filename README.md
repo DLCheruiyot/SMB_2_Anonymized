@@ -1,11 +1,11 @@
 
-# SMB_2_Anonymized: End-to-End Data Warehouse for a Hospitality Business
+# SMB_2_Anonymized: End-to-End Data Warehouse for a FoodBev and Hospitality Business
 
 Project Type: End-to-End Data Warehouse + Power BI Reporting
-Business Domain: Retail Winery (Anonymized)
+Business Domain: Food, Beverage and Hospitality Business (Anonymized)
 Tools Used: SQL Server, dbt (conceptually), Power BI, T-SQL, Power Query
 
-This repository showcases a fully anonymized SQL Server-based data warehouse project designed for a small, consumer-facing business. The solution includes structured ETL layers (Bronze → Silver → Gold), performance-optimized views, and an integrated Power BI report — all built to support robust insights across sales, customer behavior, marketing, and revenue trends.
+This repository showcases a fully anonymized SQL Server-based data warehouse project designed for a small, consumer-facing business. The solution includes structured ETL layers (Bronze → Silver → Gold), performance-optimized views, and an integrated Power BI report — all built to support robust insights across sales, revenue trends, customer behavior, marketing and product metrics.
 
 > ⚠️ All customer, product, and financial data has been anonymized for public sharing. No real customer names, emails, product identifiers, or original business names remain.
 
@@ -15,16 +15,21 @@ This repository showcases a fully anonymized SQL Server-based data warehouse pro
 
 ```
 📂 SMB_2_Anonymized/
-├── 📜 create_database.sql
-├── 📜 ddl_bronze.sql
-├── 📜 ddl_silver.sql
-├── 📜 ddl_gold_views.sql
-├── 📜 load_silver_data.sql
-├── 📸 report_snapshots/
+├── 📜 Scripts
+|   ├── 📜 ddl_bronze.sql
+|   ├── 📜 load_bronze_data.sql
+|   ├── 📜 ddl_silver.sql (business data, dimensions, special calendars)
+|   ├── 📜 load_silver_data.sql
+|   ├── 📜 silver.quality_checks
+|   └── 📜 ddl_gold_views.sql
+├── 📸 screenshots - report_snapshots/
 │   ├── revenue_trend.png
 │   ├── customer_segmentation.png
 │   ├── email_performance.png
 │   └── product_summary.png
+├── 📂 Diagrams
+│   ├── data_flow_diagram.png
+│   └── data_integration_diagram.png  
 └── README.md
 ```
 
