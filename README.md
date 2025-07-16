@@ -99,11 +99,11 @@ If you'd like to discuss this project, request a deeper walkthrough, or talk abo
 
 | Revenue Trend (YoY%) | Customer Segments |
 |----------------------|-------------------|
-| ![](screenshots/revenue_trend_snapshot.jpg) | ![](report_snapshots/customer_segmentation.png) |
+| ![](screenshots/revenue_trend_snapshot.jpg) | ![](screenshots/customer_segment_snapshot.jpg) |
 
 | Email Engagement | Product Revenue Summary |
 |------------------|-------------------------|
-| ![](report_snapshots/email_performance.png) | ![](report_snapshots/product_summary.png) |
+| ![](screenshots/email_engagement_snapshot.jpg) | ![](screenshots/prod_revenue_snapshot.jpg) |
 
 ---
 
@@ -114,5 +114,5 @@ If you'd like a walkthrough of the full Power BI report or have questions about 
 ## 🧠 Author
 
 **Daniel Cheruiyot**  
-Data & Insights Analyst | BI Developer  
+Data & Business Insights Analyst | BI Developer  
 📧 [LinkedIn](https://www.linkedin.com/in/cheruiyotdaniel)  
