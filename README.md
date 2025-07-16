@@ -21,7 +21,7 @@ This repository showcases a fully anonymized SQL Server-based data warehouse pro
 |   ├── 📜 ddl_silver.sql (business data, dimensions, special calendars)
 |   ├── 📜 load_silver_data.sql
 |   ├── 📜 silver.quality_checks
-|   └── 📜 ddl_gold_views.sql
+|   └── 📜 create_gold_views.sql
 ├── 📸 screenshots - report_snapshots/
 │   ├── revenue_trend.png
 │   ├── customer_segmentation.png
