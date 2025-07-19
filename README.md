@@ -27,6 +27,8 @@ This repository showcases a fully anonymized SQL Server-based data warehouse pro
 │   ├── customer_segmentation.png
 │   ├── email_performance.png
 │   └── product_summary.png
+├── 📂 Reports
+│   ├── smb_bi_etl_pipeline.pbix
 ├── 📂 Diagrams
 │   ├── data_flow_diagram.png
 │   └── data_integration_diagram.png  
