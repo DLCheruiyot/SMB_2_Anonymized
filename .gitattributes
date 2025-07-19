@@ -1,0 +1,12 @@
+# Force GitHub Linguist to detect SQL scripts as primary code
+*.sql linguist-detectable=true
+
+# Treat Power BI files as non-code/documentation
+*.pbix linguist-documentation=true
+
+# Treat Markdown files as documentation (won't skew language stats)
+*.md linguist-documentation=true
+
+# Ignore image files from language stats
+*.png linguist-documentation=true
+*.jpg linguist-documentation=true
