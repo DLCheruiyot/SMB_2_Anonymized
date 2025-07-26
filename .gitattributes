@@ -1,12 +1,34 @@
-# Force GitHub Linguist to detect SQL scripts as primary code
+# ================================
+# ✅ Highlight only core languages
+# ================================
 *.sql linguist-detectable=true
+*.py linguist-detectable=true
 
-# Treat Power BI files as non-code/documentation
-*.pbix linguist-documentation=true
+# ================================
+# ❌ Ignore large/raw datasets
+# (don’t let CSVs or JSONs affect language stats)
+# ================================
+*.csv linguist-detectable=false
+*.json linguist-detectable=false
+*.xlsx linguist-detectable=false
 
-# Treat Markdown files as documentation (won't skew language stats)
-*.md linguist-documentation=true
+# ================================
+# ❌ Ignore compiled/binary formats
+# (PBIX, logs, etc. shouldn’t count toward language stats)
+# ================================
+*.pbix linguist-detectable=false
+*.log linguist-detectable=false
+*.bak linguist-detectable=false
 
-# Ignore image files from language stats
-*.png linguist-documentation=true
-*.jpg linguist-documentation=true
+# ================================
+# ✅ Treat SQL + Python as primary languages
+# (even if repo contains mixed formats)
+# ================================
+*.sql linguist-language=SQL
+*.py linguist-language=Python
+
+# ================================
+# ❌ Ignore misc config/metadata
+# ================================
+*.md linguist-detectable=false
+LICENSE linguist-detectable=false
